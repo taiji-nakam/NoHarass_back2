@@ -13,19 +13,19 @@ class assessment(Base):
 
 class assessment_answer(Base):
     __tablename__ = 'assessment_answer'
-    assessment_id:Mapped[str] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
+    assessment_id:Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
     question_id:Mapped[int] = mapped_column(primary_key=True)
     answer:Mapped[int] = mapped_column()
 
 class assessment_result(Base):
     __tablename__ = 'assessment_result'
-    assessment_id:Mapped[str] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
+    assessment_id:Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
     category:Mapped[str] = mapped_column(primary_key=True)
     priority:Mapped[int] = mapped_column()
 
 class basic_info(Base):
     __tablename__ = 'basic_info'
-    assessment_id:Mapped[str] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
+    assessment_id:Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
     age_group:Mapped[str] = mapped_column()
     country_origin:Mapped[str] = mapped_column()
     nearest_station:Mapped[str] = mapped_column()
@@ -38,7 +38,7 @@ class basic_info(Base):
 
 class area_result(Base):
     __tablename__ = 'area_result'
-    assessment_id:Mapped[str] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
+    assessment_id:Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
     recommended:Mapped[str] = mapped_column()
     note:Mapped[str] = mapped_column()
 
