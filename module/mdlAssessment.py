@@ -10,15 +10,20 @@ def do(data):
 
     # 診断をDBに登録
     new_assessment_id = crud.insert_assessment()
+    print("===question_values===")
+    print(data['questionValues'])
     question_values_to_insert = [
         mymodels.assessment_answer(
             assessment_id=new_assessment_id,
             question_id=item['questionId'],
-            answer_value=item['value']
+            answer=item['value']
         )
         for item in data['questionValues']
     ]
-crud.myinsert_all(question_values_to_insert)
+    print("===question_values_to_insert===")
+    print(question_values_to_insert)
+
+    crud.myinsert_all(question_values_to_insert)
     result_to_insert = [
         mymodels.assessment_result(
             assessment_id=new_assessment_id,
