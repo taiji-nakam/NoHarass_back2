@@ -63,5 +63,9 @@ def Hello():
     insert_cnt = crud.myinsert(area_result_to_insert)
     message = message + f"[insert to area_result]row{insert_cnt}\n "
 
+    ### mdlAreaResult.pyで使う ###
+    result = crud.select_area_result(new_assessment_id)
+    message = message + f"[select_area_result]{json.dumps(result, sort_keys=True)}\n "
+
     # message = 'Hello from sub module!'
     return jsonify({'message': message})

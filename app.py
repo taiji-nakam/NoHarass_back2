@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 import openai
 from db_control import crud, mymodels
-from module import mdlQuestions,mdlAssessment,mdlArea,mdlHello
+from module import mdlQuestions,mdlAssessment,mdlArea,mdlHello,mdlAreaResult
 
 app = Flask(__name__)
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})  # CORS設定を更新
@@ -37,6 +37,16 @@ def do_result():
     if data is None:
         return jsonify({"error": "Invalid JSON"}), 400
     return mdlArea.do(data), 200
+
+# おすすめエリア取得
+@app.route("/areaResult", methods=['GET'])
+def get_area():
+    # クエリパラメータから assessmentId を取得
+    assessmentId = request.args.get('assessmentId', type=int)
+    # print(f"[areaResult]assessmentId: {assessmentId}")
+    if assessmentId is None:
+        return {"error": "Missing or invalid assessmentId"}, 400
+    return mdlAreaResult.getResult(assessmentId), 200
 
 # === テスト用(デプロイパッケージより) === 
 @app.route('/', methods=['GET'])

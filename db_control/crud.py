@@ -10,7 +10,7 @@ import pandas as pd
 from datetime import datetime
 
 from db_control.connect import engine
-from db_control.mymodels import assessment,assessment_answer,assessment_result,basic_info,Customers
+from db_control.mymodels import assessment,assessment_answer,assessment_result,basic_info,area_result,Customers
 
 # assessment_resultデータ取得
 def select_assessment_result(assessment_id):
@@ -66,6 +66,35 @@ def insert_assessment():
     session.commit()
     session.close()
     return new_assessment_id
+
+# assessment_resultデータ取得
+def select_area_result(assessment_id):
+    # 初期化
+    result_json = None  
+    # session構築
+    Session = sessionmaker(bind=engine)
+    session = Session()       
+    query = session.query(area_result).filter(area_result.assessment_id == assessment_id)
+    try:
+        #トランザクションを開始
+        with session.begin():
+            result = query.all()
+        # 結果をオブジェクトから辞書に変換し、リストに追加
+        result_dict_list = []
+        for res in result:
+            result_dict_list.append({
+                "assessment_id": assessment_id,
+                "recommended": res.recommended,
+                "note": res.note
+            })
+        # リストをJSONに変換
+        result_json = json.dumps(result_dict_list, ensure_ascii=False)
+    except Exception as e:
+        print(f"[select_area_result]例外が発生しました: {e}")
+        session.rollback()
+    # セッションを閉じる
+    session.close()
+    return result_json
 
 # データ追加(単短レコード)
 def myinsert(data_to_insert):
