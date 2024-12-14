@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey,DECIMAL
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from datetime import datetime
 
@@ -29,6 +29,7 @@ class basic_info(Base):
     age_group:Mapped[str] = mapped_column()
     country_origin:Mapped[str] = mapped_column()
     nearest_station:Mapped[str] = mapped_column()
+    time_tostation:Mapped[int] = mapped_column()
     budget_lower_limit:Mapped[int] = mapped_column()
     budget_upper_limit:Mapped[int] = mapped_column()
     area_fg_smaller:Mapped[int] = mapped_column()
@@ -41,6 +42,8 @@ class area_result(Base):
     assessment_id:Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"), primary_key=True)
     recommended:Mapped[str] = mapped_column()
     note:Mapped[str] = mapped_column()
+    latitude: Mapped[float] = mapped_column(DECIMAL(9, 6))  # 緯度
+    longitude: Mapped[float] = mapped_column(DECIMAL(9, 6))  # 経度
 
 # # TEST Table
 class Customers(Base):
