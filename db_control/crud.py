@@ -85,7 +85,9 @@ def select_area_result(assessment_id):
             result_dict_list.append({
                 "assessment_id": assessment_id,
                 "recommended": res.recommended,
-                "note": res.note
+                "note": res.note,
+                "latitude":res.latitude,
+                "longitude":res.longitude
             })
         # リストをJSONに変換
         result_json = json.dumps(result_dict_list, ensure_ascii=False)
