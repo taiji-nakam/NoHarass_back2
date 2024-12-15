@@ -86,8 +86,8 @@ def select_area_result(assessment_id):
                 "assessment_id": assessment_id,
                 "recommended": res.recommended,
                 "note": res.note,
-                "latitude":res.latitude,
-                "longitude":res.longitude
+                "latitude": float(res.latitude),  # Decimal -> floatに変換
+                "longitude": float(res.longitude)  # Decimal -> floatに変換
             })
         # リストをJSONに変換
         result_json = json.dumps(result_dict_list, ensure_ascii=False)
