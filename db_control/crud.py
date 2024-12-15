@@ -70,7 +70,7 @@ def insert_assessment():
 # assessment_resultデータ取得
 def select_area_result(assessment_id):
     # 初期化
-    result_json = None  
+    result = None  
     # session構築
     Session = sessionmaker(bind=engine)
     session = Session()       
@@ -78,25 +78,21 @@ def select_area_result(assessment_id):
     try:
         #トランザクションを開始
         with session.begin():
-            result = query.all()
+            result = query.one()
         # 結果をオブジェクトから辞書に変換し、リストに追加
-        result_dict_list = []
-        for res in result:
-            result_dict_list.append({
+            result_list={
                 "assessment_id": assessment_id,
-                "recommended": res.recommended,
-                "note": res.note,
-                "latitude": float(res.latitude),  # Decimal -> floatに変換
-                "longitude": float(res.longitude)  # Decimal -> floatに変換
-            })
-        # リストをJSONに変換
-        result_json = json.dumps(result_dict_list, ensure_ascii=False)
+                "recommended": result.recommended,
+                "note": result.note,
+                "latitude": float(result.latitude),  # Decimal -> floatに変換
+                "longitude": float(result.longitude)  # Decimal -> floatに変換
+            }
     except Exception as e:
         print(f"[select_area_result]例外が発生しました: {e}")
         session.rollback()
     # セッションを閉じる
     session.close()
-    return result_json
+    return result_list
 
 # データ追加(単短レコード)
 def myinsert(data_to_insert):
